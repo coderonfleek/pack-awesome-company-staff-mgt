@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md12">
-      <h2>My Heroes</h2>
+      <h2>Awesome Company</h2>
     </div>
   </div>
 
@@ -13,17 +13,17 @@
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
-          Staff
+          All Staff
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item" *ngFor="let hero of heroes">
-            <a routerLink="/detail/{{ hero.id }}">
-              <span class="badge">{{ hero.id }}</span> {{ hero.name }}
+          <li class="list-group-item" *ngFor="let staff of staff">
+            <a routerLink="/detail/{{ staff.id }}">
+              <span class="badge">{{ staff.id }}</span> {{ staff.name }}
             </a>
             <button
               class="btn btn-danger btn-sm float-right"
-              title="delete hero"
-              (click)="delete(hero)"
+              title="delete staff"
+              (click)="delete(staff)"
             >
               x
             </button>
@@ -38,12 +38,12 @@
           <div>
             <label class="text-dark"
               >Enter Staff Name:
-              <input #heroName />
+              <input #staffName />
             </label>
             <!-- (click) passes input value to add() and then clears the input -->
             <button
               class="btn btn-primary"
-              (click)="add(heroName.value); heroName.value = ''"
+              (click)="add(staffName.value); staffName.value = ''"
             >
               Add
             </button>
