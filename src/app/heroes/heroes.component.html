@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md12">
+      <h2>My Heroes</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">&nbsp;</div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          Staff
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let hero of heroes">
+            <a routerLink="/detail/{{ hero.id }}">
+              <span class="badge">{{ hero.id }}</span> {{ hero.name }}
+            </a>
+            <button
+              class="btn btn-danger btn-sm float-right"
+              title="delete hero"
+              (click)="delete(hero)"
+            >
+              x
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card mb-3" style="max-width: 18rem;">
+        <div class="card-header bg-primary text-white">Create New Staff</div>
+        <div class="card-body text-success">
+          <div>
+            <label class="text-dark"
+              >Enter Staff Name:
+              <input #heroName />
+            </label>
+            <!-- (click) passes input value to add() and then clears the input -->
+            <button
+              class="btn btn-primary"
+              (click)="add(heroName.value); heroName.value = ''"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
