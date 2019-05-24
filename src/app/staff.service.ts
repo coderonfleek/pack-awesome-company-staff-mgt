@@ -11,19 +11,34 @@ const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
 };
 
+import { Store } from "@ngrx/store";
+
 @Injectable({ providedIn: "root" })
 export class StaffService {
-  private staffUrl = "api/staff"; // URL to web api
+  private staffUrl = "https://jsonplaceholder.typicode.com/users"; // URL to web api
+  public users = [];
 
   constructor(
     private http: HttpClient,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private _store: Store<any>
+  ) {
+    _store.select("users").subscribe(users => {
+      this.users = users;
+    });
+  }
 
   /** GET staff from the server */
   getAllStaff(): Observable<Staff[]> {
     return this.http.get<Staff[]>(this.staffUrl).pipe(
-      tap(_ => this.log("fetched staff")),
+      tap(users => {
+        console.log(users);
+        this._store.dispatch({
+          type: "LOAD_USERS",
+          payload: users
+        });
+        this.log("fetched staff");
+      }),
       catchError(this.handleError<Staff[]>("getStaff", []))
     );
   }
@@ -42,12 +57,10 @@ export class StaffService {
   }
 
   /** GET staff by id. Will 404 if id not found */
-  getStaff(id: number): Observable<Staff> {
-    const url = `${this.staffUrl}/${id}`;
-    return this.http.get<Staff>(url).pipe(
-      tap(_ => this.log(`fetched staff id=${id}`)),
-      catchError(this.handleError<Staff>(`getStaff id=${id}`))
-    );
+  getStaff(id: number) {
+    let staff = this.users.filter(h => id == h.id);
+
+    return staff[0];
   }
 
   /* GET staff whose name contains search term */
@@ -67,7 +80,13 @@ export class StaffService {
   /** POST: add a new staff to the server */
   addStaff(staff: Staff): Observable<Staff> {
     return this.http.post<Staff>(this.staffUrl, staff, httpOptions).pipe(
-      tap((newStaff: Staff) => this.log(`added staff w/ id=${newStaff.id}`)),
+      tap((newStaff: Staff) => {
+        this._store.dispatch({
+          type: "ADD_USER",
+          payload: newStaff
+        });
+        this.log(`added staff w/ id=${newStaff.id}`);
+      }),
       catchError(this.handleError<Staff>("addStaff"))
     );
   }
@@ -78,17 +97,31 @@ export class StaffService {
     const url = `${this.staffUrl}/${id}`;
 
     return this.http.delete<Staff>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted staff id=${id}`)),
+      tap(_ => {
+        this._store.dispatch({
+          type: "REMOVE_USER",
+          payload: staff
+        });
+        this.log(`deleted staff id=${id}`);
+      }),
       catchError(this.handleError<Staff>("deleteStaff"))
     );
   }
 
   /** PUT: update the staff on the server */
   updateStaff(staff: Staff): Observable<any> {
-    return this.http.put(this.staffUrl, staff, httpOptions).pipe(
-      tap(_ => this.log(`updated staff id=${staff.id}`)),
-      catchError(this.handleError<any>("updateStaff"))
-    );
+    return this.http
+      .put(`${this.staffUrl}/${staff.id}`, staff, httpOptions)
+      .pipe(
+        tap(updatedStaff => {
+          this._store.dispatch({
+            type: "UPDATE_USER",
+            payload: updatedStaff
+          });
+          this.log(`updated staff id=${staff.id}`);
+        }),
+        catchError(this.handleError<any>("updateStaff"))
+      );
   }
 
   /**

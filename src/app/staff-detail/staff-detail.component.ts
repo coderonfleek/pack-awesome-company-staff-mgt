@@ -17,15 +17,15 @@ export class StaffDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private staffService: StaffService,
     private location: Location
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.getStaff();
   }
 
+  ngOnInit(): void {}
+
   getStaff(): void {
     const id = +this.route.snapshot.paramMap.get("id");
-    this.staffService.getStaff(id).subscribe(staff => (this.staff = staff));
+    this.staff = this.staffService.getStaff(id);
   }
 
   goBack(): void {
@@ -33,6 +33,8 @@ export class StaffDetailComponent implements OnInit {
   }
 
   save(): void {
-    this.staffService.updateStaff(this.staff).subscribe(() => this.goBack());
+    this.staffService.updateStaff(this.staff).subscribe(() => {
+      this.goBack();
+    });
   }
 }

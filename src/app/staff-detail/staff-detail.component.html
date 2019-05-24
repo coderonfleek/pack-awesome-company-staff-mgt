@@ -1,12 +1,97 @@
-<div *ngIf="staff">
-  <h2>{{ staff.name | uppercase }} Details</h2>
-  <div><span>id: </span>{{ staff.id }}</div>
+<!-- <div *ngIf="staff"> -->
+<div>
+  <!-- <h2>{{ staff.name | uppercase }} Details</h2>
+  
   <div>
     <label
       >name:
       <input [(ngModel)]="staff.name" placeholder="name" />
     </label>
   </div>
-  <button (click)="goBack()">go back</button>
-  <button (click)="save()">save</button>
+  <a class="btn btn-danger" routerLink="/staff">Go Back</a>
+  <button class="btn btn-primary" (click)="save()">save</button> -->
+
+  <div class="container register">
+    <div class="row">
+      <div class="col-md-3 register-left">
+        <p>
+          <i class="fa fa-user fa-5x"></i>
+        </p>
+        <h3 class="text-light">Fikky User</h3>
+        <div class="row mt-4">
+          <div class="col-md-2">
+            <i class="fa fa-envelope"></i>
+          </div>
+          <div class="col-md-10">
+            fikfikky@gmail.com
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-2">
+            <i class="fa fa-map-marker-alt"></i>
+          </div>
+          <div class="col-md-10">
+            Adetokunbo Ademola
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-2">
+            <i class="fa fa-phone"></i>
+          </div>
+          <div class="col-md-10">
+            07068006051
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9 register-right">
+        <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="home"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+          >
+            <h3 class="register-heading">Edit Staff Details</h3>
+            <div class="row register-form">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="First Name *"
+                    value=""
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Last Name *"
+                    value=""
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Password *"
+                    value=""
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Confirm Password *"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

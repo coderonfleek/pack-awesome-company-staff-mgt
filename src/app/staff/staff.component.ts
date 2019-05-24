@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 
 import { Staff } from "../staff";
 import { StaffService } from "../staff.service";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-staff",
@@ -11,14 +12,20 @@ import { StaffService } from "../staff.service";
 export class StaffComponent implements OnInit {
   staff: Staff[];
 
-  constructor(private staffService: StaffService) {}
+  constructor(private staffService: StaffService, private _store: Store<any>) {
+    _store.select("users").subscribe(users => {
+      this.staff = users;
+    });
+  }
 
   ngOnInit() {
-    this.getstaff();
+    if (this.staff.length == 0) {
+      this.getstaff();
+    }
   }
 
   getstaff(): void {
-    this.staffService.getAllStaff().subscribe(staff => (this.staff = staff));
+    this.staffService.getAllStaff().subscribe(staff => console.log(staff));
   }
 
   add(name: string): void {
@@ -27,12 +34,17 @@ export class StaffComponent implements OnInit {
       return;
     }
     this.staffService.addStaff({ name } as Staff).subscribe(staff => {
-      this.staff.push(staff);
+      //this.staff.push(staff);
+      console.log(staff);
     });
   }
 
   delete(staff: Staff): void {
-    this.staff = this.staff.filter(h => h !== staff);
-    this.staffService.deleteStaff(staff).subscribe();
+    //this.staff = this.staff.filter(h => h !== staff);
+    let isConfirmed = confirm(`Are you sure you want to delete ${staff.name}`);
+    if(isConfirmed){
+      this.staffService.deleteStaff(staff).subscribe();
+    }
+    
   }
 }
