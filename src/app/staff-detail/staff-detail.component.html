@@ -17,13 +17,13 @@
         <p>
           <i class="fa fa-user fa-5x"></i>
         </p>
-        <h3 class="text-light">Fikky User</h3>
+        <h3 class="text-light">{{ staff.name }}</h3>
         <div class="row mt-4">
           <div class="col-md-2">
             <i class="fa fa-envelope"></i>
           </div>
           <div class="col-md-10">
-            fikfikky@gmail.com
+            {{ staff.email }}
           </div>
         </div>
         <div class="row mt-2">
@@ -31,7 +31,8 @@
             <i class="fa fa-map-marker-alt"></i>
           </div>
           <div class="col-md-10">
-            Adetokunbo Ademola
+            {{ staff.address.zipcode }} {{ staff.address.street }}
+            {{ staff.address.city }}
           </div>
         </div>
 
@@ -40,7 +41,7 @@
             <i class="fa fa-phone"></i>
           </div>
           <div class="col-md-10">
-            07068006051
+            {{ staff.phone }}
           </div>
         </div>
       </div>
@@ -59,7 +60,8 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="First Name *"
+                    placeholder="Name *"
+                    [(ngModel)]="staff.name"
                     value=""
                   />
                 </div>
@@ -67,25 +69,37 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="Last Name *"
+                    placeholder="Phone"
+                    [(ngModel)]="staff.phone"
                     value=""
                   />
                 </div>
                 <div class="form-group">
                   <input
-                    type="password"
+                    type="email"
                     class="form-control"
-                    placeholder="Password *"
+                    placeholder="Email"
+                    [(ngModel)]="staff.email"
                     value=""
                   />
                 </div>
                 <div class="form-group">
                   <input
-                    type="password"
+                    type="text"
                     class="form-control"
-                    placeholder="Confirm Password *"
+                    placeholder="Username"
+                    [(ngModel)]="staff.username"
                     value=""
                   />
+                </div>
+                <div>
+                  <button
+                    class="btn btn-primary"
+                    [disabled]="processing"
+                    (click)="save()"
+                  >
+                    {{ processing ? "Updating..." : "Update Staff" }}
+                  </button>
                 </div>
               </div>
             </div>

@@ -12,7 +12,7 @@ import { StaffService } from "../staff.service";
 })
 export class StaffDetailComponent implements OnInit {
   @Input() staff: Staff;
-
+  processing: Boolean = false;
   constructor(
     private route: ActivatedRoute,
     private staffService: StaffService,
@@ -25,7 +25,7 @@ export class StaffDetailComponent implements OnInit {
 
   getStaff(): void {
     const id = +this.route.snapshot.paramMap.get("id");
-    this.staff = this.staffService.getStaff(id);
+    this.staff = { ...this.staffService.getStaff(id) };
   }
 
   goBack(): void {
@@ -33,7 +33,9 @@ export class StaffDetailComponent implements OnInit {
   }
 
   save(): void {
+    this.processing = true;
     this.staffService.updateStaff(this.staff).subscribe(() => {
+      this.processing = false;
       this.goBack();
     });
   }

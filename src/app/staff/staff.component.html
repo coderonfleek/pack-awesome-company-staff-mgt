@@ -1,6 +1,4 @@
 <div class="container">
-  
-
   <div class="row">
     <div class="col-md-12">&nbsp;</div>
   </div>
@@ -14,7 +12,9 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item" *ngFor="let staff of staff">
             <a routerLink="/detail/{{ staff.id }}">
-              <span class="badge">{{ staff.id }}</span> {{ staff.name }}
+              <span class="badge">{{ staff.id }}</span> {{ staff.name }} ({{
+                staff.username
+              }})
             </a>
             <button
               class="btn btn-danger btn-sm float-right"
@@ -27,22 +27,58 @@
         </ul>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="card mb-3" style="max-width: 18rem;">
+    <div class="col-md-6">
+      <div class="card mb-3">
         <div class="card-header bg-primary text-white">Create New Staff</div>
         <div class="card-body text-success">
-          <div>
-            <label class="text-dark"
-              >Enter Staff Name:
-              <input #staffName />
-            </label>
-            <!-- (click) passes input value to add() and then clears the input -->
-            <button
-              class="btn btn-primary"
-              (click)="add(staffName.value); staffName.value = ''"
-            >
-              Add
-            </button>
+          <div class="row register-form">
+            <div class="col-md-12">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Name"
+                  [(ngModel)]="newStaff.name"
+                  value=""
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Phone"
+                  [(ngModel)]="newStaff.phone"
+                  value=""
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Email"
+                  [(ngModel)]="newStaff.email"
+                  value=""
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Username"
+                  [(ngModel)]="newStaff.username"
+                  value=""
+                />
+              </div>
+              <div>
+                <button
+                  class="btn btn-primary"
+                  [disabled]="processing"
+                  (click)="add()"
+                >
+                  {{ processing ? "Saving..." : "Add Staff" }}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

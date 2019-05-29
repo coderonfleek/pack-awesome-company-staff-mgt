@@ -11,6 +11,7 @@ import { Store } from "@ngrx/store";
 })
 export class StaffComponent implements OnInit {
   staff: Staff[];
+  newStaff: Object = {};
 
   constructor(private staffService: StaffService, private _store: Store<any>) {
     _store.select("users").subscribe(users => {
@@ -28,23 +29,16 @@ export class StaffComponent implements OnInit {
     this.staffService.getAllStaff().subscribe(staff => console.log(staff));
   }
 
-  add(name: string): void {
-    name = name.trim();
-    if (!name) {
-      return;
-    }
-    this.staffService.addStaff({ name } as Staff).subscribe(staff => {
-      //this.staff.push(staff);
+  add(): void {
+    this.staffService.addStaff(this.newStaff as Staff).subscribe(staff => {
       console.log(staff);
     });
   }
 
   delete(staff: Staff): void {
-    //this.staff = this.staff.filter(h => h !== staff);
     let isConfirmed = confirm(`Are you sure you want to delete ${staff.name}`);
-    if(isConfirmed){
+    if (isConfirmed) {
       this.staffService.deleteStaff(staff).subscribe();
     }
-    
   }
 }
